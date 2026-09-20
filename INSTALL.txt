@@ -1,0 +1,102 @@
+MeltySave 0.5.0 - Installation and Quick Start
+Prerelease for MeltyNight VR Premium 0.6.7 / Windows x64
+
+REQUIREMENTS
+
+You need your own installed copy of the game and BepInEx 6 for Unity IL2CPP,
+Windows x64. This package contains the mod and its audio decoders, not BepInEx
+or game files. No .NET SDK or source compilation is required.
+
+The locally verified loader is BepInEx 6.0.0-be.697 (commit 5362580).
+Download that exact Unity IL2CPP Windows x64 build:
+https://builds.bepinex.dev/projects/bepinex_be/697/BepInEx-Unity.IL2CPP-win-x64-6.0.0-be.697%2B5362580.zip
+
+Official installation guide:
+https://docs.bepinex.dev/master/articles/user_guide/installation/unity_il2cpp.html
+
+Do not substitute BepInEx 5, Unity Mono, or a 32-bit build. Other loader builds
+and game versions have not been verified with this release.
+
+FIRST INSTALL
+
+1. Close the game.
+2. If BepInEx is not installed, extract the loader archive into the folder
+   containing MeltyNight VR.exe. Start the game once, allow initial setup to
+   finish, then close it. The first run can take longer while interop files
+   are generated. If you already have BepInEx, check its version in
+   BepInEx/LogOutput.log before replacing an existing loader installation.
+3. Extract this MeltySave ZIP into the same game folder. Merge folders.
+   Do not extract it into MeltyNight VR_Data or inside BepInEx itself.
+4. Verify these files exist:
+   BepInEx/plugins/MeltySave.dll
+   BepInEx/plugins/NVorbis.dll
+   BepInEx/plugins/NLayer.dll
+5. Launch the game normally. After the scene finishes loading, open the
+   existing hand menu and choose Scene slots. F8 also opens/closes the window.
+
+UPDATING AN EXISTING INSTALLATION
+
+Close the game. Back up MeltySave/saves and the old MeltySave.dll, NVorbis.dll
+and NLayer.dll outside BepInEx/plugins. Extract the new ZIP into the game
+folder and replace its supplied files. This manual extraction does not make
+an automatic backup. Remove any duplicate MeltySave.dll from other plugin
+subfolders. Keep your saves and BGM files; neither is included in the ZIP.
+
+QUICK START
+
+- Save: Scene slots > + Save scene in an empty slot.
+- Load: Load > Confirm. Five slots per page; Add page creates another page.
+- Edit slots: Manage > overwrite, rename, copy, move or delete.
+- Music: Settings > BGM > Open a folder > Play beside a track.
+- Add music: Put MP3, OGG Vorbis or WAV files inside BGM next to the game EXE.
+  You can organize them into mood folders. Choose Refresh files afterward.
+  Original folder and song names appear in the browser (extensions hidden).
+- Map music: Settings > BGM > Built-in music. Map default follows map changes.
+- Stuck player: Reset player position returns you to the current map's start.
+- Messages: Settings > Show messages, Message position, Message angle.
+- Full instructions: MeltySave/docs/USER-GUIDE.md (open with any text editor).
+
+SAVES AND MUSIC
+
+Your saves are under MeltySave/saves. Back up the whole folder with the game
+closed. Custom music stays under BGM; scene slots only store the relative
+music path. Keep the same names and folder structure when moving a library.
+No songs, personal saves, thumbnails or character artwork are bundled.
+Credits and official sources for the maintainer's 35-track collection are
+listed in MeltySave/docs/MUSIC-CREDITS.md and on the GitHub repository.
+Obtain music from its creators under their terms; this is not a music pack.
+
+UNINSTALL / ROLLBACK
+
+Close the game and move BepInEx/plugins/MeltySave.dll outside BepInEx/plugins.
+This disables the mod. Keep MeltySave/saves and BGM to retain your data.
+Remove NVorbis.dll and NLayer.dll only if no other plugin uses them.
+For rollback, restore the plugin and matching dependencies from your backup.
+Do not remove the entire BepInEx installation if other mods depend on it.
+
+TROUBLESHOOTING
+
+- No menu: Check the three DLL paths above, the loader version and
+  BepInEx/LogOutput.log. Look for "Loading [MeltySave 0.5.0]".
+- Music missing: Check BGM is beside the EXE and use Refresh files.
+- Unsupported music: Ogg Opus and encrypted .bgm files are not supported.
+  See the full guide for WAV variants and size limits.
+- A moved or renamed song no longer loads: Select its new location and
+  save the scene or settings again.
+- Please report the game version, mod version, loader version, reproduction
+  steps and relevant log lines. Review logs for personal paths before sharing.
+  https://github.com/CrouchingWriter/MeltySave/issues
+
+TEST STATUS
+
+64 automated checks and local game integration passed. A local collection
+of 35 tracks passed decoding checks. Physical VR controller operation,
+headset readability and audible loop transitions still need hands-on testing.
+Animations restart at the saved state; exact playback time and physics are
+not preserved. Live character replacement or increased character limits are
+not features of this release.
+
+THIRD-PARTY COMPONENTS
+
+NVorbis 0.10.5 and NLayer 3.0.0 are included under their MIT licenses.
+Their license files accompany the DLLs in BepInEx/plugins.
