@@ -1,3 +1,8 @@
+## 0.8.2 character color update
+
+Maya and Kokoa now use the correct surface/shade color properties. On these two models, Ears changes outer fur while preserving inner skin/fluff; Tail changes its base while preserving the original tip and ornaments. Follow hair color and restored scenes use the same protection. Other models retain their existing mappings until individually checked. Existing saves/presets do not need conversion.
+
+The user reports that scene saving/loading now appears fixed with 0.8.1. That repair is retained. Please check the new appearance results in HMD after restarting; in-game rendered colors still depend on lighting.
 ## 0.8.1 contact hotfix
 
 The 0.8.0 HMD retest failed after scene loading. A further collision-policy defect has now been reproduced and corrected: applying a saved touch value before opening the native Settings panel could use uninitialized layer IDs and disable unrelated Default contacts. The handler now initializes before applying only the intended hand/body setting.

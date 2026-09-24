@@ -2,11 +2,11 @@
 
 Scene slots, music playback and character colors for **MeltyNight VR Premium 0.6.7, Windows x64**.
 
-**[Download v0.8.1](https://github.com/CrouchingWriter/MeltySave/releases/tag/v0.8.1)** · **[Installation](INSTALL.txt)** · **[User guide](USER-GUIDE.md)** · **[Report a bug](https://github.com/CrouchingWriter/MeltySave/issues)**
+**[Download v0.8.2](https://github.com/CrouchingWriter/MeltySave/releases/tag/v0.8.2)** · **[Installation](INSTALL.txt)** · **[User guide](USER-GUIDE.md)** · **[Report a bug](https://github.com/CrouchingWriter/MeltySave/issues)**
 
-Download `MeltySave-v0.8.1.zip` from the release assets. GitHub's automatically generated **Source code** archives do not contain the installable plugin.
+Download `MeltySave-v0.8.2.zip` from the release assets. GitHub's automatically generated **Source code** archives do not contain the installable plugin.
 
-> 0.8.1 fixes a reproduced collision-layer initialization error after scene load. Fully restart the game after updating; existing saves remain usable. The previous 0.8.0 HMD retest failed, and physical confirmation of this hotfix is still pending.
+> 0.8.2 corrects Maya/Kokoa colors and preserves their inner-ear fur and tail tips. These protective masks are currently curated for those two models only. The prior save/load repair is retained; new appearance results still need HMD confirmation.
 
 ## Features
 
@@ -27,7 +27,7 @@ Download `MeltySave-v0.8.1.zip` from the release assets. GitHub's automatically 
 
 Requires **BepInEx 6.0.0-be.697, Unity IL2CPP Windows x64**; the loader is a separate download linked in [INSTALL.txt](INSTALL.txt). The loader version was verified from the local game's runtime log.
 
-Close the game, install/initialize BepInEx, then extract `MeltySave-v0.8.1.zip` into the folder containing `MeltyNight VR.exe`. The plugin should be at `BepInEx/plugins/MeltySave.dll`, beside `NVorbis.dll` and `NLayer.dll`. Back up existing plugin files and `MeltySave/saves` before updating.
+Close the game, install/initialize BepInEx, then extract `MeltySave-v0.8.2.zip` into the folder containing `MeltyNight VR.exe`. The plugin should be at `BepInEx/plugins/MeltySave.dll`, beside `NVorbis.dll` and `NLayer.dll`. Back up existing plugin files and `MeltySave/saves` before updating.
 
 Open the existing hand menu and select **Scene slots**, or press **F8**. Select a character in Character Settings, then choose **Appearance** to the left of Scene slots for colors. For music, use **Settings > BGM**. Put your tracks and category folders under **BGM**, then choose **Refresh files**.
 

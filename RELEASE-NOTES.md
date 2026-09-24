@@ -1,3 +1,15 @@
+# MeltySave 0.8.2 — Maya/Kokoa colors and fur protection
+
+- Correct UTS surface tint and shade-pass handling, addressing Maya/Kokoa hair that previously changed mostly at the outline. Regional eye/brow/accessory textures now reach shared UTS shade maps in tint mode too.
+- Retain native shaders, texture detail and transparency. Absolute mode also handles the relevant UTS highlight, rim, MatCap and Angel Ring colors.
+- On **Maya and Kokoa**, preserve inner-ear skin/fluff and original tail-tip colors. Ears changes the outer fur; Tail changes its base. Tail ornaments remain native. Follow hair color uses the same protection, including scene/preset restoration.
+- Fur protection is currently curated for those two models only. Other characters need individual mapping checks; this release does not claim universal inner-ear/tail-tip separation.
+- Keep the 0.8.1 contact collision fix, save format, slot UI and BGM behavior. Existing saves and color presets remain usable.
+
+Fully close the game before updating. HMD/controller appearance acceptance remains a user check; non-HMD rendering and pixel checks are documented in the release description.
+
+---
+
 # MeltySave 0.8.1 — Contact collision hotfix
 
 Fix scene loading before the native Settings panel has ever been opened. The touch checkbox listener had uninitialized layer IDs (0/0), so restoring a disabled touch setting could turn off Default/Default collision. This also broke unrelated contacts and could persist for the rest of that game session.

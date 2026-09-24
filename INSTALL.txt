@@ -1,4 +1,4 @@
-MeltySave 0.8.1 - Installation and Quick Start
+MeltySave 0.8.2 - Installation and Quick Start
 Prerelease for MeltyNight VR Premium 0.6.7 / Windows x64
 
 REQUIREMENTS
@@ -77,7 +77,7 @@ Do not remove the entire BepInEx installation if other mods depend on it.
 TROUBLESHOOTING
 
 - No menu: Check the three DLL paths above, the loader version and
-  BepInEx/LogOutput.log. Look for "Loading [MeltySave 0.8.1]".
+  BepInEx/LogOutput.log. Look for "Loading [MeltySave 0.8.2]".
 - Music missing: Check BGM is beside the EXE and use Refresh files.
 - Unsupported music: Ogg Opus and encrypted .bgm files are not supported.
   See the full guide for WAV variants and size limits.
