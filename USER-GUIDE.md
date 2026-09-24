@@ -1,4 +1,9 @@
-## Appearance and scene restoration (0.8.0)
+## 0.8.1 contact hotfix
+
+The 0.8.0 HMD retest failed after scene loading. A further collision-policy defect has now been reproduced and corrected: applying a saved touch value before opening the native Settings panel could use uninitialized layer IDs and disable unrelated Default contacts. The handler now initializes before applying only the intended hand/body setting.
+
+Fully close and restart the game after updating. Existing saves do not need recreation. Character Touch retains its native hand/body enable-disable behavior. Physical HMD confirmation remains pending; use Capture diagnostics during any remaining failure.
+## Appearance and scene restoration (0.8.1)
 
 Select a character in the game's **Character Settings**, then choose **Appearance** on the hand-menu header, left of **Scene slots**. The editor follows the native selection. It closes when a scene starts loading. Use Hair, Eyes, and the available Ears/Tail tabs, the color field, Brightness, quick swatches, or the RGB number pad (0-255).
 
@@ -16,7 +21,7 @@ This is a **prerelease for Premium 0.6.7**. The previous HMD report also reprodu
 
 ---
 
-# Scene Slots / MeltySave 0.8.0
+# Scene Slots / MeltySave 0.8.1
 
 A removable BepInEx IL2CPP scene-save plugin for **MeltyNight VR Premium 0.6.7, Windows x64**. The plugin UI and documentation are in English. Original game executables, assets, and metadata are not edited.
 

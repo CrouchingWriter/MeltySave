@@ -1,3 +1,13 @@
+# MeltySave 0.8.1 — Contact collision hotfix
+
+Fix scene loading before the native Settings panel has ever been opened. The touch checkbox listener had uninitialized layer IDs (0/0), so restoring a disabled touch setting could turn off Default/Default collision. This also broke unrelated contacts and could persist for the rest of that game session.
+
+The loader now initializes the actual native listener before any checkbox callback and applies only PlayerHand/CharacterBody policy (8/20 in 0.6.7). It does not reset the global collision matrix or increase the Hand collider buffer. The native Character Touch checkbox still enables/disables hand/body contact as designed.
+
+**Fully close and restart the game after installing.** Existing saves work without recreation. All 0.8.0 Appearance, BGM and scene features are retained. A primitive Unity-trigger regression reproduces failure on the old code and passes the fix across touch off/on transitions with the native Settings panel closed. Physical HMD acceptance still requires a retest; the user's previous 0.8.0 HMD test failed despite its earlier automated checks.
+
+---
+
 # MeltySave 0.8.0 — Appearance and scene restoration
 
 Prerelease for MeltyNight VR Premium 0.6.7 (Windows x64).
