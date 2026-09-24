@@ -1,3 +1,34 @@
+# MeltySave 0.8.8 — Appearance selection and animal color fixes
+
+Preview release for **MeltyNight VR Premium 0.6.7 / Windows x64**. This includes the changes developed locally since public v0.8.2.
+
+## Changes since v0.8.2
+
+- Keep the hand-menu **Appearance** entry available when switching the selected character, even when the native character-settings tab is hidden.
+- Preserve native inner-ear skin/fluff while coloring the outer ear. Curated protection now covers 24 native ear bindings across 22 character names, including MANUKA, Yuuko and Lilie. Costume-only decorative ears are outside this coverage.
+- Preserve native tail tips/patterns while changing the tail base, including MANUKA, Yuuko, RINDO, IMERIS, Epona, Anon, Lilie and Nekoyama Nae. Retain the previous Maya/Kokoa protection.
+- Default **Ears/Tail: Follow hair color** to ON. Scene slots save the per-character links, RGB values and Absolute mode. Explicit OFF values in existing saves remain OFF.
+- Correct INABA KAYA's outer-ear Absolute color, including colored highlights and outlines, while keeping the inner ear and jewelry native.
+- Fix the INABA KAYA color-application error while the character is selected. Native selection adds two outline materials; the plugin now preserves these passes during color edits, selection changes and Reset.
+
+Existing scenes and color presets remain readable. No resave is needed for the rendering fixes. To change an explicitly saved OFF hair-link setting, enable it and overwrite that scene. Existing scene slots, BGM, player positioning and contact-policy repairs are retained.
+
+## Installation / update
+
+Close the game, back up the current plugin and `MeltySave/saves`, and extract **MeltySave-v0.8.8.zip** beside `MeltyNight VR.exe`. Requires BepInEx 6 Unity IL2CPP Windows x64; the verified loader and setup steps are in the included installation guide.
+
+The ZIP includes English installation instructions, user guide, release notes, decoder licenses and the music attribution catalogue. It contains no original game assets, music or personal saves. GitHub's automatic **Source code** archives are not the installation package.
+
+## Validation and remaining checks
+
+133 automated checks and all 62 game/graphics regression stages passed. The new regression reproduces the old error with the actual native selection Outline enabled, then checks selection/deselection, ten Absolute/Tint cycles, Appearance checkbox/RGB/Reset callbacks, scene reload and rendered colors. Existing ear/tail protection and save/load/BGM checks passed.
+
+**Physical HMD acceptance of this patch is still pending.** The selected-state failure is reproduced and repaired in the game harness; this does not certify the entire controller experience. Test INABA KAYA while selected in Appearance, then deselect/reselect and save/load. Lighting still affects appearance. Other game versions remain unverified, and the SteamVR collider warning is not claimed resolved by this color patch.
+
+[Installation](https://github.com/CrouchingWriter/MeltySave/blob/main/INSTALL.txt) · [User guide](https://github.com/CrouchingWriter/MeltySave/blob/main/USER-GUIDE.md) · [Music credits](https://github.com/CrouchingWriter/MeltySave/blob/main/MUSIC-CREDITS.md) · [Report a bug](https://github.com/CrouchingWriter/MeltySave/issues)
+
+---
+
 # MeltySave 0.8.2 — Maya/Kokoa colors and fur protection
 
 - Correct UTS surface tint and shade-pass handling, addressing Maya/Kokoa hair that previously changed mostly at the outline. Regional eye/brow/accessory textures now reach shared UTS shade maps in tint mode too.

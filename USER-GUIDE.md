@@ -1,32 +1,4 @@
-## 0.8.2 character color update
-
-Maya and Kokoa now use the correct surface/shade color properties. On these two models, Ears changes outer fur while preserving inner skin/fluff; Tail changes its base while preserving the original tip and ornaments. Follow hair color and restored scenes use the same protection. Other models retain their existing mappings until individually checked. Existing saves/presets do not need conversion.
-
-The user reports that scene saving/loading now appears fixed with 0.8.1. That repair is retained. Please check the new appearance results in HMD after restarting; in-game rendered colors still depend on lighting.
-## 0.8.1 contact hotfix
-
-The 0.8.0 HMD retest failed after scene loading. A further collision-policy defect has now been reproduced and corrected: applying a saved touch value before opening the native Settings panel could use uninitialized layer IDs and disable unrelated Default contacts. The handler now initializes before applying only the intended hand/body setting.
-
-Fully close and restart the game after updating. Existing saves do not need recreation. Character Touch retains its native hand/body enable-disable behavior. Physical HMD confirmation remains pending; use Capture diagnostics during any remaining failure.
-## Appearance and scene restoration (0.8.1)
-
-Select a character in the game's **Character Settings**, then choose **Appearance** on the hand-menu header, left of **Scene slots**. The editor follows the native selection. It closes when a scene starts loading. Use Hair, Eyes, and the available Ears/Tail tabs, the color field, Brightness, quick swatches, or the RGB number pad (0-255).
-
-Hair color also updates the mapped eyebrows. **Follow hair color** links an ear/tail color to the current hair color; entering a color directly unlinks that part. Parts without a mapped native animal-ear/tail mesh have no tab. If a model shares ear/tail UV coordinates, the editor labels the shared-color limitation. **Absolute color** removes the original hue from the color textures and handles additional colored shader contributions, while retaining texture detail, alpha and native shading. It is a color replacement mode, not an unlit guarantee that every rendered pixel equals the input RGB. Default tint mode remains available for older saves.
-
-**Reset hair / Reset eyes / Reset ears / Reset tail** restore the original part appearance. **Revert changes** returns to the appearance at editor entry. Closing keeps edits; save or overwrite a scene slot to retain them across launches. Left/Right/Both eye selection is available; Bluerose supports Both eyes only because its iris UVs overlap.
-
-**Colors** stores reusable individual colors. **Presets** stores resolved appearance combinations, now including accessory colors, links and absolute mode. Both support Save new, Overwrite, Rename, Delete and Favorites, with five entries per page. Recent stores 12 committed colors; dragging adds only the final color. Copy/Paste works across parts and characters. Libraries use `MeltySave/saves/colors.json`; scene slots store independent values, not references to library entries.
-
-Scene loading now runs the native pose-selection lifecycle after reconstructing characters, so selecting a saved interaction pose also initializes its native controller and voice path. It does not replay an interrupted kiss/touch as a live contact. Old contacts are released, retained interaction objects are rebound, and actual physics may start a new contact after loading. Character options, native UI values and movement speed remain part of scene restoration. Older saves stay readable without bulk conversion; missing appearance uses native defaults, and missing movement speed retains the current preference.
-
-**Settings > Slower / Faster** changes the left-stick multiplier from 0.25x to 3.00x, globally and per scene. **Settings > Capture diagnostics** records current interaction state and enables before-save/after-load and Hand-overflow snapshots for that session. Files are local under `MeltySave/diagnostics/interaction`; nothing is uploaded. Restart the game to end session recording (unless an explicit diagnostic flag is present).
-
-This is a **prerelease for Premium 0.6.7**. The previous HMD report also reproduced with new saves. The new native-lifecycle fix passes non-HMD tests using copies of those saves and real Unity collider events, including interaction sound-source start/stop. Physical HMD controller contact, audible voice/SFX recovery, locomotion, and the 32-collider warning still require user confirmation. The Hand buffer remains 32; it has not been raised to hide the warning. Cross-version support is unverified.
-
----
-
-# Scene Slots / MeltySave 0.8.1
+# MeltySave 0.8.8 — User guide
 
 A removable BepInEx IL2CPP scene-save plugin for **MeltyNight VR Premium 0.6.7, Windows x64**. The plugin UI and documentation are in English. Original game executables, assets, and metadata are not edited.
 
@@ -58,6 +30,7 @@ Each page holds five slots. **Previous**, **Next**, and **Add page** navigate a 
 - Music, ambience, effects, voice, mute-toggle values, and master audio volume.
 - Selected BGM, playback mode, queue folder, playhead, and playing/paused/stopped state.
 - The game's native **Touch response** checkbox value.
+- Per-character appearance colors, Absolute mode and ear/tail hair links; movement-speed multiplier.
 - A 640 x 360 scene thumbnail, embedded in the slot file.
 
 Character portraits reuse sprites from the game's own character selection menu. No character artwork is bundled with the mod.
@@ -65,6 +38,22 @@ Character portraits reuse sprites from the game's own character selection menu. 
 **Touch response** is the existing `BodyTouch` checkbox: it enables/disables contact between the player's hands and character bodies. It is not an independent haptics-only switch. The plugin restores this checkbox and its contact behavior; physical controller vibration still depends on the base game and VR runtime.
 
 Animations resume from the beginning of the saved state. This is not a complete process checkpoint: physics, transient effects, exact animation time, and live interactions are not preserved. The environment's built-in `Necomaid` NPC is not treated as a user-spawned character.
+
+## Appearance
+
+Select a character through the game's native settings, then choose **Appearance** in the existing hand-menu header. The editor follows the selected character; the entry remains available when the character-settings tab is hidden. Loading a scene closes the editor.
+
+Use **Hair**, **Eyes**, **Ears** or **Tail** where supported. Choose a color with the live color field/brightness control or enter RGB values from 0 to 255. Hair changes also color mapped eyebrows. Both eyes is the default; Left/Right modes are available where mapped. Bluerose supports Both eyes only.
+
+**Absolute color** removes the original color contribution while retaining native texture detail, alpha and lighting. INABA KAYA's outer ears also neutralize their colored highlights and outlines. Native inner-ear skin/fluff and mapped tail tips remain unchanged. Ear protection covers 24 native bindings across 22 names, not costume-only decorative ears. Reset controls restore native appearance; Revert changes restores the state at editor entry.
+
+**Follow hair color** defaults ON for ears/tails. Native hair leaves the linked part native. Existing explicitly saved OFF remains OFF; direct ear/tail editing unlinks that part. Scene saves contain actual per-character colors, Absolute and link settings, not references to presets. Old scenes remain readable; missing appearance data uses native defaults.
+
+**Colors** is a global reusable color library with save/overwrite/rename/delete, Favorites, Recent and Copy/Paste. Appearance presets store hair/eye combinations independently of scenes. Deleting a library color or preset does not change saved scenes. Their data lives under `MeltySave/saves/colors.json`.
+
+Settings includes a persistent **Movement speed** multiplier, also restored with scene slots. The existing native Touch response setting and character configuration remain part of scene restoration; active transient interactions are not replayed as a process checkpoint.
+
+The 0.8.8 build passed 133 automated checks and 62 game/graphics stages. Physical HMD acceptance remains pending, including INABA KAYA editing while selected, controller color-field dragging, selection changes and save/load. Report reproducible failures with the game/plugin versions and relevant log lines.
 
 ## Thumbnails
 
@@ -140,6 +129,4 @@ BepInEx/LogOutput.log           Plugin log
 
 Back up the entire `MeltySave/saves` directory with the game closed. History and trash are not automatically pruned. Unreadable slots are shown as **Unreadable slot** and preserved until explicitly deleted. Failed scene loading is not fully transactional; use **Restore previous scene** if needed.
 
-Older scene saves remain readable. Compatibility is currently limited to game version 0.6.7. This 0.6.0 patch is a prerelease; other game versions and hands-on VR operation remain unverified. See MeltySave-INSTALL.txt in the installation ZIP for setup instructions.
-
-
+Older scene saves remain readable. Compatibility is currently limited to game version 0.6.7. This 0.8.8 patch is a prerelease; other game versions and hands-on VR operation remain unverified. See MeltySave-INSTALL.txt in the installation ZIP for setup instructions.
