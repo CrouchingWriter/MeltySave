@@ -1,4 +1,22 @@
-# Scene Slots / MeltySave 0.5.0
+## Appearance and scene restoration (0.8.0)
+
+Select a character in the game's **Character Settings**, then choose **Appearance** on the hand-menu header, left of **Scene slots**. The editor follows the native selection. It closes when a scene starts loading. Use Hair, Eyes, and the available Ears/Tail tabs, the color field, Brightness, quick swatches, or the RGB number pad (0-255).
+
+Hair color also updates the mapped eyebrows. **Follow hair color** links an ear/tail color to the current hair color; entering a color directly unlinks that part. Parts without a mapped native animal-ear/tail mesh have no tab. If a model shares ear/tail UV coordinates, the editor labels the shared-color limitation. **Absolute color** removes the original hue from the color textures and handles additional colored shader contributions, while retaining texture detail, alpha and native shading. It is a color replacement mode, not an unlit guarantee that every rendered pixel equals the input RGB. Default tint mode remains available for older saves.
+
+**Reset hair / Reset eyes / Reset ears / Reset tail** restore the original part appearance. **Revert changes** returns to the appearance at editor entry. Closing keeps edits; save or overwrite a scene slot to retain them across launches. Left/Right/Both eye selection is available; Bluerose supports Both eyes only because its iris UVs overlap.
+
+**Colors** stores reusable individual colors. **Presets** stores resolved appearance combinations, now including accessory colors, links and absolute mode. Both support Save new, Overwrite, Rename, Delete and Favorites, with five entries per page. Recent stores 12 committed colors; dragging adds only the final color. Copy/Paste works across parts and characters. Libraries use `MeltySave/saves/colors.json`; scene slots store independent values, not references to library entries.
+
+Scene loading now runs the native pose-selection lifecycle after reconstructing characters, so selecting a saved interaction pose also initializes its native controller and voice path. It does not replay an interrupted kiss/touch as a live contact. Old contacts are released, retained interaction objects are rebound, and actual physics may start a new contact after loading. Character options, native UI values and movement speed remain part of scene restoration. Older saves stay readable without bulk conversion; missing appearance uses native defaults, and missing movement speed retains the current preference.
+
+**Settings > Slower / Faster** changes the left-stick multiplier from 0.25x to 3.00x, globally and per scene. **Settings > Capture diagnostics** records current interaction state and enables before-save/after-load and Hand-overflow snapshots for that session. Files are local under `MeltySave/diagnostics/interaction`; nothing is uploaded. Restart the game to end session recording (unless an explicit diagnostic flag is present).
+
+This is a **prerelease for Premium 0.6.7**. The previous HMD report also reproduced with new saves. The new native-lifecycle fix passes non-HMD tests using copies of those saves and real Unity collider events, including interaction sound-source start/stop. Physical HMD controller contact, audible voice/SFX recovery, locomotion, and the 32-collider warning still require user confirmation. The Hand buffer remains 32; it has not been raised to hide the warning. Cross-version support is unverified.
+
+---
+
+# Scene Slots / MeltySave 0.8.0
 
 A removable BepInEx IL2CPP scene-save plugin for **MeltyNight VR Premium 0.6.7, Windows x64**. The plugin UI and documentation are in English. Original game executables, assets, and metadata are not edited.
 
@@ -28,6 +46,7 @@ Each page holds five slots. **Previous**, **Next**, and **Add page** navigate a 
 - Outfit selection, active clothing parts, and blend-shape values.
 - Animation state, speed, mirror, and other animator parameters.
 - Music, ambience, effects, voice, mute-toggle values, and master audio volume.
+- Selected BGM, playback mode, queue folder, playhead, and playing/paused/stopped state.
 - The game's native **Touch response** checkbox value.
 - A 640 x 360 scene thumbnail, embedded in the slot file.
 
@@ -57,9 +76,28 @@ Open **Settings > BGM**. Select **Open** beside a folder to browse the user's ow
 
 For custom music, place files or categorized folders in **BGM** beside `MeltyNight VR.exe`. Use **Refresh files**, then open a category or use **Next** for additional pages. Subfolders are scanned recursively; linked folders/files are skipped. Folder names and song filenames are shown unchanged, with only the file extension hidden. Korean/Japanese filenames use installed font fallbacks; interface controls remain English. Supported formats are **MP3**, **OGG Vorbis** and **WAV** (PCM 8/16/24/32-bit or float32), mono or stereo. Ogg Opus, encrypted `.bgm` files and WAV extensible/compressed variants are not supported in this build.
 
-Tracks loop from the end of the file to the beginning. Seamless playback requires audio prepared for that boundary; embedded loop-point tags are not used. Decoding runs off the game thread, and the previous track continues until the new clip is ready. Missing, corrupt or unsupported files report an error and retain the previous selection. File size is limited to 128 MB and decoded PCM to 256 MB (8-192 kHz).
+**Repeat track** loops from the end of the file to the beginning. Seamless playback requires audio prepared for that boundary; embedded loop-point tags are not used. Decoding runs off the game thread, and the previous track continues until the new clip is ready. Missing, corrupt or unsupported files report an error and retain the previous selection. File size is limited to 128 MB and decoded PCM to 256 MB (8-192 kHz).
 
 The selected track is saved with global audio settings and with scene slots. **Load slot audio** controls whether loading a scene also restores its music. Old saves without a track ID leave the selection unchanged. Custom audio is referenced by its path relative to BGM, so equal filenames in different folders remain distinct. It is not embedded in the scene file. Preserve the folder structure when moving saves to another installation. Renaming or moving a saved song requires selecting its new location and saving again.
+
+### Playback controls and Favorites
+
+The top row contains **Previous track**, **Play**, **Pause**, **Stop**, and **Next track**. Click or drag the seek bar to jump to a point in the track. Pause retains the playhead; Stop returns it to the start. The separate **Previous / Next** buttons below the list change browser pages.
+
+- **Repeat track** repeats the selected track. Previous/Next track manually choose another track in its folder.
+- **Folder** cycles tracks directly inside the selected track's folder.
+- **Parent folder** cycles tracks in that folder's parent, including its subfolders. The parent remains fixed while the queue advances. A track directly in BGM uses all custom tracks. Built-in tracks cycle within the built-in library.
+- **Favorites** cycles the saved Favorites list in the order tracks were added. Use **Add favorite / Remove favorite** beside a track. The **Favorites** button at the top opens the list; it does not change playback mode.
+
+Normal folders cycle by relative filename. Lists wrap at their ends. Missing or failed tracks are skipped during cycling; an entirely unplayable list stops. Favorites are references, so adding one does not copy the audio file. Missing Favorites remain visible and removable. Folder browsing alone does not change the active queue; choose a track and then a mode.
+
+Scene slots now capture BGM playback position and playing/paused/stopped state, along with the selected track, mode and queue folder. Global audio preferences retain the selection, mode and transport state; the continuously moving playhead is saved only in scene slots. Old slots without playback metadata remain supported. Player position/heading, VR origin, message controls and native Touch response remain part of scene state.
+
+### BGM cache
+
+Custom tracks are decoded on a worker thread and cached as PCM under **MeltySave/cache/bgm** (up to 1 GB on disk). Loaded Unity clips are also kept in memory (up to 512 MB; the playing/prepared clips are protected). Recently loaded tracks start directly from memory. Cycling prepares the next track ahead of time.
+
+The disk cache survives game restarts and avoids decoding unchanged audio again. The first play of an uncached track, and loading cached PCM back into Unity after a restart or eviction, can still take time. This is not a guarantee of zero delay or gapless transitions. File size and modification time invalidate stale entries. **Clear cache** clears reusable entries while keeping the current clip playing; original music and saves remain intact. Files added or moved while the game is running require **Refresh files**.
 
 Custom clips use the original BGM AudioSource and mixer, so Music volume/mute still applies and ambience/voices remain separate. Decoders: [NVorbis 0.10.5](https://github.com/NVorbis/NVorbis) for OGG and [NLayer 3.0.0](https://github.com/naudio/NLayer) for MP3. Both use MIT licenses under `licenses/`; installation copies the dependencies and licenses beside the plugin.
 
@@ -80,7 +118,9 @@ BepInEx/plugins/NLayer.dll      MP3 decoder dependency
 BGM/                           User-supplied music and category folders
 MeltySave/saves/library.json    Pages and load-audio preference
 MeltySave/saves/slot-00001.json  Scene, player, messages, audio, touch, thumbnail
-MeltySave/saves/audio.json      Global audio settings
+MeltySave/saves/audio.json      Global audio and playback preferences
+MeltySave/saves/music-library.json  Favorites list
+MeltySave/cache/bgm/            Disposable decoded custom-music cache
 MeltySave/saves/messages.json   Global message visibility/position/angle
 MeltySave/saves/recovery.json   Scene before the last load
 MeltySave/saves/history/        Previous file versions
@@ -90,6 +130,6 @@ BepInEx/LogOutput.log           Plugin log
 
 Back up the entire `MeltySave/saves` directory with the game closed. History and trash are not automatically pruned. Unreadable slots are shown as **Unreadable slot** and preserved until explicitly deleted. Failed scene loading is not fully transactional; use **Restore previous scene** if needed.
 
-Older scene saves remain readable. Compatibility is currently limited to game version 0.6.7. The public 0.5.0 package is a prerelease; other game versions and hands-on VR operation remain unverified. See MeltySave-INSTALL.txt in the installation ZIP for setup instructions.
+Older scene saves remain readable. Compatibility is currently limited to game version 0.6.7. This 0.6.0 patch is a prerelease; other game versions and hands-on VR operation remain unverified. See MeltySave-INSTALL.txt in the installation ZIP for setup instructions.
 
 
